@@ -89,6 +89,7 @@ body {
 .feature-grid {
   display: grid;
   gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .feature-card {
@@ -96,6 +97,8 @@ body {
   border-radius: 8px;
   background: #0f172a;
   border: 1px solid #1e293b;
+  
+
 }
 
 .feature-card h3 {
