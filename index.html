@@ -28,6 +28,29 @@
     </div>
   </main>
 
+  <!-- Add Problem Form -->
+<section id="add-problem" class="add-problem" style="padding:20px;">
+  <h2>Add a Problem</h2>
+  <form id="problem-form">
+    <input id="p-title" placeholder="Title" required />
+    <input id="p-platform" placeholder="Platform (e.g. LeetCode)" />
+    <input id="p-topic" placeholder="Topic (e.g. Array)" />
+    <select id="p-difficulty">
+      <option value="Easy">Easy</option>
+      <option value="Medium" selected>Medium</option>
+      <option value="Hard">Hard</option>
+    </select>
+    <button type="submit">Add Problem</button>
+  </form>
+</section>
+
+<!-- Problems list -->
+<section id="problems-section" style="padding:20px;">
+  <h2>Your Problems</h2>
+  <div id="problems-container" class="feature-grid"></div>
+</section>
+
+
   <!-- Features Section -->
   <section id="features" class="features">
     <h2>Why TrackMyDSA?</h2>
