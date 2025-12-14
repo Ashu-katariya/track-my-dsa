@@ -6,78 +6,72 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <!-- Navbar -->
   <header class="navbar">
     <div class="logo">TrackMyDSA</div>
     <nav>
-      <a href="#features">Features</a>
-      <a href="#how-it-works">How it works</a>
-      <a href="#footer">Contact</a>
+      <a href="#add-problem">Add</a>
+      <a href="#problems-section">Problems</a>
+      <a href="#about">About</a>
     </nav>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <main class="hero">
-    <div class="hero-text">
-      <h1>Track your DSA progress, the smart way.</h1>
-      <p>
-        Add problems, mark their status, and never forget which questions you solved,
-        revisited, or still struggle with.
-      </p>
-      <button id="get-started-btn" class="primary-btn">Get Started</button>
-    </div>
+    <h1>Track your DSA progress</h1>
+    <p>Full-stack DSA tracker built while learning MERN.</p>
   </main>
 
-  <!-- Add Problem Form -->
-<section id="add-problem" class="add-problem" style="padding:20px;">
-  <h2>Add a Problem</h2>
-  <form id="problem-form">
-    <input id="p-title" placeholder="Title" required />
-    <input id="p-platform" placeholder="Platform (e.g. LeetCode)" />
-    <input id="p-topic" placeholder="Topic (e.g. Array)" />
-    <select id="p-difficulty">
-      <option value="Easy">Easy</option>
-      <option value="Medium" selected>Medium</option>
-      <option value="Hard">Hard</option>
+  <!-- Counters + Filter -->
+  <section class="controls" style="padding:20px;">
+    <p>
+      Total: <span id="count-total">0</span> |
+      Todo: <span id="count-todo">0</span> |
+      In Progress: <span id="count-progress">0</span> |
+      Done: <span id="count-done">0</span>
+    </p>
+
+    <select id="filterStatus">
+      <option value="all">All</option>
+      <option value="todo">Todo</option>
+      <option value="in-progress">In Progress</option>
+      <option value="done">Done</option>
     </select>
-    <button type="submit">Add Problem</button>
-  </form>
-</section>
-
-<!-- Problems list -->
-<section id="problems-section" style="padding:20px;">
-  <h2>Your Problems</h2>
-  <div id="problems-container" class="feature-grid"></div>
-</section>
-
-
-  <!-- Features Section -->
-  <section id="features" class="features">
-    <h2>Why TrackMyDSA?</h2>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <h3>Organize problems</h3>
-        <p>Group questions by topic, difficulty, and platform.</p>
-      </div>
-      <div class="feature-card">
-        <h3>See progress</h3>
-        <p>Visualize how many problems you’ve solved over time.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Plan revisits</h3>
-        <p>Mark tricky questions so you can revisit them later.</p>
-      </div>
-    </div>
   </section>
 
-  <section id="about" class="about">
-  <h2>About This Project</h2>
-  <p>This project helps me track DSA problems while learning full-stack development.</p>
-</section>
+  <!-- Add Problem -->
+  <section id="add-problem" style="padding:20px;">
+    <h2>Add Problem</h2>
+    <form id="problem-form">
+      <input id="p-title" placeholder="Title" required />
+      <input id="p-platform" placeholder="Platform (LeetCode)" />
+      <input id="p-topic" placeholder="Topic (Array, DP...)" />
 
+      <select id="p-difficulty">
+        <option value="Easy">Easy</option>
+        <option value="Medium" selected>Medium</option>
+        <option value="Hard">Hard</option>
+      </select>
 
-  <footer id="footer" class="footer">
-    <p>TrackMyDSA &copy; 2025</p>
+      <button type="submit">Add Problem</button>
+    </form>
+  </section>
+
+  <!-- Problems List -->
+  <section id="problems-section" style="padding:20px;">
+    <h2>Your Problems</h2>
+    <div id="problems-container" class="feature-grid"></div>
+  </section>
+
+  <!-- About -->
+  <section id="about" style="padding:20px;">
+    <h2>About</h2>
+    <p>This project tracks DSA problems using full-stack development.</p>
+  </section>
+
+  <footer style="padding:20px;">
+    TrackMyDSA © 2025
   </footer>
 
   <script src="script.js"></script>

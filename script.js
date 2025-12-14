@@ -1,135 +1,139 @@
-console.log("TrackMyDSA loaded successfully");
+const API_URL = "https://trackmydsa-backend.onrender.com/api/problems";
+console.log("🔥 NEW FRONTEND LOADED");
 
-// helper: base url of backend
-const API_BASE = "http://localhost:3000/api/problems";
 
-// get elements
-const problemsContainer = document.getElementById("problems-container");
+
+// DOM elements
+const container = document.getElementById("problems-container");
+const filterSelect = document.getElementById("filterStatus");
+
+const countTotal = document.getElementById("count-total");
+const countTodo = document.getElementById("count-todo");
+const countProgress = document.getElementById("count-progress");
+const countDone = document.getElementById("count-done");
+
+// form inputs
 const form = document.getElementById("problem-form");
-const inputTitle = document.getElementById("p-title");
-const inputPlatform = document.getElementById("p-platform");
-const inputTopic = document.getElementById("p-topic");
-const inputDifficulty = document.getElementById("p-difficulty");
+const titleInput = document.getElementById("p-title");
+const platformInput = document.getElementById("p-platform");
+const topicInput = document.getElementById("p-topic");
+const difficultyInput = document.getElementById("p-difficulty");
 
-// 1) Fetch & render problems
+let allProblems = [];
+
+// Load problems
 async function loadProblems() {
-  try {
-    const res = await fetch(API_BASE);
-    const data = await res.json();
-    renderProblems(data);
-  } catch (err) {
-    console.error("Failed to load problems:", err);
-    problemsContainer.innerHTML = "<p>Could not load problems. Check backend.</p>";
-  }
+  const res = await fetch(API_URL);
+  const data = await res.json();
+
+  allProblems = data;
+  updateCounts(data);
+  applyFilterAndRender();
 }
 
-function renderProblems(list) {
-  if (!Array.isArray(list) || list.length === 0) {
-    problemsContainer.innerHTML = "<p>No problems yet. Add some!</p>";
+// Update counters
+function updateCounts(problems) {
+  countTotal.innerText = problems.length;
+  countTodo.innerText = problems.filter(p => p.status === "todo").length;
+  countProgress.innerText = problems.filter(p => p.status === "in-progress").length;
+  countDone.innerText = problems.filter(p => p.status === "done").length;
+}
+
+// Filter + render
+function applyFilterAndRender() {
+  const filter = filterSelect.value;
+  let filtered = allProblems;
+
+  if (filter !== "all") {
+    filtered = allProblems.filter(p => p.status === filter);
+  }
+
+  renderProblems(filtered);
+}
+
+filterSelect.addEventListener("change", applyFilterAndRender);
+
+// Render cards
+function renderProblems(problems) {
+  container.innerHTML = "";
+
+  if (problems.length === 0) {
+    container.innerHTML = "<p>No problems yet.</p>";
     return;
   }
 
-  // create cards
-  problemsContainer.innerHTML = list
-    .map((p) => {
-      return `
-      <div class="feature-card" data-id="${p.id}">
-        <h3>${escapeHtml(p.title)}</h3>
-        <p><strong>Platform:</strong> ${escapeHtml(p.platform || "")}</p>
-        <p><strong>Topic:</strong> ${escapeHtml(p.topic || "")}</p>
-        <p><strong>Difficulty:</strong> ${escapeHtml(p.difficulty || "")}</p>
-        <p><strong>Status:</strong> <span class="status">${escapeHtml(p.status || "todo")}</span></p>
-        <div style="margin-top:8px;">
-          <button class="btn-done">Mark done</button>
-          <button class="btn-delete" style="margin-left:8px;">Delete</button>
-        </div>
-      </div>
-      `;
-    })
-    .join("");
+  problems.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "feature-card";
+
+    card.innerHTML = `
+      <h3>${p.title}</h3>
+      <p>Platform: ${p.platform || ""}</p>
+      <p>Topic: ${p.topic || ""}</p>
+      <p>Difficulty: ${p.difficulty}</p>
+
+      <label>Status:</label>
+      <select class="statusSelect" data-id="${p._id}">
+        <option value="todo" ${p.status === "todo" ? "selected" : ""}>Todo</option>
+        <option value="in-progress" ${p.status === "in-progress" ? "selected" : ""}>In Progress</option>
+        <option value="done" ${p.status === "done" ? "selected" : ""}>Done</option>
+      </select>
+
+      <button class="deleteBtn" data-id="${p._id}">Delete</button>
+    `;
+
+    container.appendChild(card);
+  });
 }
 
-// small XSS-avoid helper
-function escapeHtml(str = "") {
-  return String(str).replace(/[&<>"']/g, (s) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  }[s]));
-}
-
-// 2) Form submit -> POST
+// Add problem
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const payload = {
-    title: inputTitle.value.trim(),
-    platform: inputPlatform.value.trim(),
-    topic: inputTopic.value.trim(),
-    difficulty: inputDifficulty.value,
-    status: "todo",
-  };
-  if (!payload.title) return alert("Title required");
 
-  try {
-    const res = await fetch(API_BASE, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    const data = await res.json();
-    console.log("Created:", data);
-    // clear form
-    inputTitle.value = "";
-    inputPlatform.value = "";
-    inputTopic.value = "";
-    inputDifficulty.value = "Medium";
-    // reload list
-    loadProblems();
-  } catch (err) {
-    console.error("Create failed:", err);
-    alert("Could not add problem. See console.");
-  }
+  const title = titleInput.value.trim();
+  if (!title) return alert("Title required");
+
+  await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title,
+      platform: platformInput.value,
+      topic: topicInput.value,
+      difficulty: difficultyInput.value,
+      status: "todo",
+    }),
+  });
+
+  form.reset();
+  difficultyInput.value = "Medium";
+  loadProblems();
 });
 
-// 3) Delegated event handling for done/delete buttons
-problemsContainer.addEventListener("click", async (e) => {
-  const card = e.target.closest(".feature-card");
-  if (!card) return;
-  const id = card.getAttribute("data-id");
+// Status update
+document.addEventListener("change", async (e) => {
+  if (!e.target.classList.contains("statusSelect")) return;
 
-  // Delete
-  if (e.target.classList.contains("btn-delete")) {
-    if (!confirm("Delete this problem?")) return;
-    try {
-      await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
-      loadProblems();
-    } catch (err) {
-      console.error("Delete failed:", err);
-      alert("Delete failed");
-    }
-    return;
-  }
+  await fetch(`${API_URL}/${e.target.dataset.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status: e.target.value }),
+  });
 
-  // Mark done (PUT)
-  if (e.target.classList.contains("btn-done")) {
-    try {
-      const res = await fetch(`${API_BASE}/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "done" }),
-      });
-      const updated = await res.json();
-      console.log("Updated:", updated);
-      loadProblems();
-    } catch (err) {
-      console.error("Update failed:", err);
-      alert("Update failed");
-    }
-    return;
-  }
+  loadProblems();
 });
 
-// initial load
+// Delete
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("deleteBtn")) return;
+  if (!confirm("Delete this problem?")) return;
+
+  await fetch(`${API_URL}/${e.target.dataset.id}`, {
+    method: "DELETE",
+  });
+
+  loadProblems();
+});
+
+// Init
 loadProblems();
