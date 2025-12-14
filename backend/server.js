@@ -1,43 +1,43 @@
+// backend/server.js
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
+
 const app = express();
 
+// middleware
 app.use(express.json());
 app.use(cors());
 
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/trackmydsa";
 
-const PORT = 3000;
-
-// Temporary in-memory "database"
-let nextId = 3;
-
-let problems = [
-  {
-    id: 1,
-    title: "Two Sum",
-    platform: "LeetCode",
-    topic: "Array",
-    difficulty: "Easy",
-    status: "todo",
-  },
-  {
-    id: 2,
-    title: "Reverse Linked List",
-    platform: "LeetCode",
-    topic: "Linked List",
-    difficulty: "Medium",
-    status: "in-progress",
-  },
-];
-
-// Get all problems
-app.get("/api/problems", (req, res) => {
-  res.json(problems);
+// Connect to MongoDB
+mongoose.connect(MONGO_URI)
+.then(() => console.log("✅ Connected to MongoDB"))
+.catch(err => {
+  console.error("❌ MongoDB connection error:", err.message);
+  // don't exit immediately so you can see error in console;
+  // process.exit(1);
 });
 
+// Mongoose schema & model
+const { Schema, model } = mongoose;
 
+const problemSchema = new Schema({
+  title: { type: String, required: true },
+  platform: { type: String, default: "" },
+  topic: { type: String, default: "" },
+  difficulty: { type: String, default: "Medium" },
+  status: { type: String, default: "todo" },
+}, { timestamps: true });
 
-// Simple route to test server
+const Problem = model("Problem", problemSchema);
+
+// Routes
+
+// Health check
 app.get("/health", (req, res) => {
   res.json({
     status: "ok",
@@ -46,59 +46,56 @@ app.get("/health", (req, res) => {
   });
 });
 
-// Add a new problem
-app.post("/api/problems", (req, res) => {
-  const { title, platform, topic, difficulty, status } = req.body;
-
-  // Simple validation
-  if (!title) {
-    return res.status(400).json({ error: "Title is required" });
+// GET all problems
+app.get("/api/problems", async (req, res) => {
+  try {
+    const list = await Problem.find().sort({ createdAt: -1 });
+    res.json(list);
+  } catch (err) {
+    console.error("GET /api/problems error:", err);
+    res.status(500).json({ error: "Server error" });
   }
-
-  const newProblem = {
-    id: nextId++,
-    title,
-    platform: platform || "Unknown",
-    topic: topic || "Misc",
-    difficulty: difficulty || "Medium",
-    status: status || "todo",
-  };
-
-  problems.push(newProblem);
-
-  return res.status(201).json(newProblem);
 });
 
-app.put("/api/problems/:id", (req, res) => {
-  const id = Number(req.params.id);  // URL wale id ko number me badlo
-  const idx = problems.findIndex(p => p.id === id); // is id ka object kaha h array me
+// POST create
+app.post("/api/problems", async (req, res) => {
+  try {
+    const { title, platform, topic, difficulty, status } = req.body;
+    if (!title) return res.status(400).json({ error: "Title is required" });
 
-  if (idx === -1) {
-    return res.status(404).json({ error: "Problem nahi mili" });
+    const doc = await Problem.create({ title, platform, topic, difficulty, status });
+    res.status(201).json(doc);
+  } catch (err) {
+    console.error("POST /api/problems error:", err);
+    res.status(500).json({ error: "Server error" });
   }
-
-  // Purane data + naye data ko merge kar do
-  problems[idx] = { ...problems[idx], ...req.body, id };
-
-  res.json(problems[idx]); // updated problem bhej do
 });
 
-app.delete("/api/problems/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const exists = problems.some(p => p.id === id);
-
-  if (!exists) {
-    return res.status(404).json({ error: "Problem nahi mili" });
+// PUT update
+app.put("/api/problems/:id", async (req, res) => {
+  try {
+    const doc = await Problem.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!doc) return res.status(404).json({ error: "Problem not found" });
+    res.json(doc);
+  } catch (err) {
+    console.error("PUT /api/problems/:id error:", err);
+    res.status(500).json({ error: "Server error" });
   }
-
-  problems = problems.filter(p => p.id !== id); // is id wali problem ko hata do
-
-  res.json({ success: true });
 });
 
+// DELETE
+app.delete("/api/problems/:id", async (req, res) => {
+  try {
+    const doc = await Problem.findByIdAndDelete(req.params.id);
+    if (!doc) return res.status(404).json({ error: "Problem not found" });
+    res.json({ success: true });
+  } catch (err) {
+    console.error("DELETE /api/problems/:id error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
-
-
+// Listen
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
