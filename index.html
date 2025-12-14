@@ -2,35 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TrackMyDSA</title>
+
+  <!-- Main stylesheet -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Navbar -->
+  <!-- ================= NAVBAR ================= -->
   <header class="navbar">
     <div class="logo">TrackMyDSA</div>
     <nav>
-      <a href="#add-problem">Add</a>
-      <a href="#problems-section">Problems</a>
+      <a href="#add">Add</a>
+      <a href="#problems">Problems</a>
       <a href="#about">About</a>
     </nav>
   </header>
 
-  <!-- Hero -->
-  <main class="hero">
+  <!-- ================= HERO ================= -->
+  <section class="hero">
     <h1>Track your DSA progress</h1>
-    <p>Full-stack DSA tracker built while learning MERN.</p>
-  </main>
-
-  <!-- Counters + Filter -->
-  <section class="controls" style="padding:20px;">
     <p>
-      Total: <span id="count-total">0</span> |
-      Todo: <span id="count-todo">0</span> |
-      In Progress: <span id="count-progress">0</span> |
-      Done: <span id="count-done">0</span>
+      A full-stack DSA tracker built while learning MERN.
+      Add problems, track status, and stay consistent.
     </p>
+  </section>
+
+  <!-- ================= STATS ================= -->
+  <section class="stats">
+    <span>Total: <b id="count-total">0</b></span>
+    <span>Todo: <b id="count-todo">0</b></span>
+    <span>In Progress: <b id="count-progress">0</b></span>
+    <span>Done: <b id="count-done">0</b></span>
 
     <select id="filterStatus">
       <option value="all">All</option>
@@ -40,40 +44,46 @@
     </select>
   </section>
 
-  <!-- Add Problem -->
-  <section id="add-problem" style="padding:20px;">
-    <h2>Add Problem</h2>
-    <form id="problem-form">
-      <input id="p-title" placeholder="Title" required />
-      <input id="p-platform" placeholder="Platform (LeetCode)" />
+  <!-- ================= ADD FORM ================= -->
+  <section id="add" class="add-section">
+    <h2>Add a Problem</h2>
+
+    <form id="problem-form" class="add-form">
+      <input id="p-title" placeholder="Problem title" required />
+      <input id="p-platform" placeholder="Platform (LeetCode, GFG)" />
       <input id="p-topic" placeholder="Topic (Array, DP...)" />
 
       <select id="p-difficulty">
-        <option value="Easy">Easy</option>
-        <option value="Medium" selected>Medium</option>
-        <option value="Hard">Hard</option>
+        <option>Easy</option>
+        <option selected>Medium</option>
+        <option>Hard</option>
       </select>
 
-      <button type="submit">Add Problem</button>
+      <button type="submit">Add</button>
     </form>
   </section>
 
-  <!-- Problems List -->
-  <section id="problems-section" style="padding:20px;">
+  <!-- ================= PROBLEMS ================= -->
+  <section id="problems" class="problems-section">
     <h2>Your Problems</h2>
-    <div id="problems-container" class="feature-grid"></div>
+    <div id="problems-container" class="cards"></div>
   </section>
 
-  <!-- About -->
-  <section id="about" style="padding:20px;">
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="about">
     <h2>About</h2>
-    <p>This project tracks DSA problems using full-stack development.</p>
+    <p>
+      TrackMyDSA helps you stay consistent with DSA practice.
+      Built using HTML, CSS, JavaScript, Node.js, MongoDB, Render & Netlify.
+    </p>
   </section>
 
-  <footer style="padding:20px;">
-    TrackMyDSA © 2025
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <p>© 2025 TrackMyDSA</p>
   </footer>
 
+  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
