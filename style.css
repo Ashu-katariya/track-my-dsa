@@ -308,3 +308,37 @@ input:focus, select:focus {
   display: none;
 }
 
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  background: linear-gradient(145deg, #020617, #020617);
+  color: #e5e7eb;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+/* placeholder */
+#searchInput::placeholder {
+  color: #94a3b8;
+}
+
+/* focus effect */
+#searchInput:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+}

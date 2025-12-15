@@ -6,6 +6,8 @@ console.log("🔥 NEW FRONTEND LOADED");
 // DOM elements
 const container = document.getElementById("problems-container");
 const filterSelect = document.getElementById("filterStatus");
+const searchInput = document.getElementById("searchInput");
+
 
 const countTotal = document.getElementById("count-total");
 const countTodo = document.getElementById("count-todo");
@@ -41,17 +43,32 @@ function updateCounts(problems) {
 
 // Filter + render
 function applyFilterAndRender() {
-  const filter = filterSelect.value;
+  const statusFilter = filterSelect.value;
+  const query = searchInput.value.toLowerCase();
+
   let filtered = allProblems;
 
-  if (filter !== "all") {
-    filtered = allProblems.filter(p => p.status === filter);
+  // status filter
+  if (statusFilter !== "all") {
+    filtered = filtered.filter(p => p.status === statusFilter);
+  }
+
+  // search filter
+  if (query) {
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(query) ||
+      p.topic.toLowerCase().includes(query) ||
+      p.platform.toLowerCase().includes(query)
+    );
   }
 
   renderProblems(filtered);
 }
 
+
 filterSelect.addEventListener("change", applyFilterAndRender);
+searchInput.addEventListener("input", applyFilterAndRender);
+
 
 // Render cards
 function renderProblems(problems) {
