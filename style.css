@@ -384,4 +384,47 @@ input:focus, select:focus {
   font-size: 14px;
   line-height: 1.5;
 }
+.contact {
+  padding: 32px 20px;
+  text-align: center;
+  border-top: 1px solid #1e293b;
+}
+
+.contact h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.contact-text {
+  color: #94a3b8;
+  font-size: 14px;
+  max-width: 600px;
+  margin: 0 auto 12px;
+}
+
+.contact-links {
+  font-size: 14px;
+}
+
+.contact-links a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+.contact-links a:hover {
+  text-decoration: underline;
+}
+
+.contact-links span {
+  margin: 0 6px;
+  color: #64748b;
+}
+
+.footer {
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #334155;
+  color: #94a3b8;
+  font-size: 14px;
+}
 
