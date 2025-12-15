@@ -70,7 +70,10 @@ function renderProblems(problems) {
       <h3>${p.title}</h3>
       <p>Platform: ${p.platform || ""}</p>
       <p>Topic: ${p.topic || ""}</p>
-      <p>Difficulty: ${p.difficulty}</p>
+      <span class="badge difficulty ${p.difficulty.toLowerCase()}">
+  ${p.difficulty}
+</span>
+
 
       <label>Status:</label>
       <select class="statusSelect" data-id="${p._id}">
