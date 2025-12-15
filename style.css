@@ -282,3 +282,29 @@ input:focus, select:focus {
 .saveNotesBtn:hover {
   background: #1d4ed8;
 }
+
+.notes-toggle {
+  margin-top: 12px;
+  cursor: pointer;
+  color: #4da3ff;
+  font-weight: 500;
+}
+
+.notes-box {
+  margin-top: 8px;
+}
+
+.notes-box textarea {
+  width: 100%;
+  min-height: 70px;
+  background: #0f172a;
+  color: white;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.hidden {
+  display: none;
+}
+

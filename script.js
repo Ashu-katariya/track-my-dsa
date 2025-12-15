@@ -84,18 +84,15 @@ function renderProblems(problems) {
 
       <button class="deleteBtn" data-id="${p._id}">Delete</button>
 
-      <div class="notes-section">
-  <label>Notes:</label>
-  <textarea 
-    class="notesInput" 
-    data-id="${p._id}" 
-    placeholder="Approach, edge cases, mistakes..."
-  >${p.notes || ""}</textarea>
-
-  <button class="saveNotesBtn" data-id="${p._id}">
-    Save Notes
-  </button>
+    <div class="notes-toggle" data-id="${p._id}">
+  ▶ Notes
 </div>
+
+<div class="notes-box hidden" id="notes-${p._id}">
+  <textarea class="notes-input" placeholder="Write notes...">${p.notes || ""}</textarea>
+  <button class="save-notes" data-id="${p._id}">Save Notes</button>
+</div>
+
 
     `;
 
@@ -151,6 +148,19 @@ document.addEventListener("click", async (e) => {
 
   loadProblems();
 });
+
+document.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("notes-toggle")) return;
+
+  const id = e.target.dataset.id;
+  const notesBox = document.getElementById(`notes-${id}`);
+
+  const isHidden = notesBox.classList.contains("hidden");
+
+  notesBox.classList.toggle("hidden");
+  e.target.innerText = isHidden ? "▼ Notes" : "▶ Notes";
+});
+
 
 // Notes save
 document.addEventListener("click", async (e) => {
