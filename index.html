@@ -4,141 +4,150 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TrackMyDSA</title>
-
-  <!-- Main stylesheet -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- ================= NAVBAR ================= -->
+  <!-- NAVBAR -->
   <header class="navbar">
-    <div class="logo">TrackMyDSA</div>
-    <nav>
-      <a href="#add">Add</a>
-      <a href="#problems">Problems</a>
-      <a href="#about">About</a>
-    </nav>
+    <div class="container nav-inner">
+      <div class="logo">TrackMyDSA</div>
+      <nav>
+        <a href="#add">Add</a>
+        <a href="#problems">Problems</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- ================= HERO ================= -->
-  <section class="hero">
-    <h1>Track your DSA progress</h1>
-    <p>
-      A full-stack DSA tracker built while learning MERN.
-      Add problems, track status, and stay consistent.
-    </p>
+  <!-- HERO -->
+  <section class="hero section">
+    <div class="container">
+      <h1>Track your DSA progress</h1>
+      <p>
+        A full-stack DSA tracker built while learning MERN.
+        Add problems, track status, take notes, and stay consistent.
+      </p>
+    </div>
   </section>
 
-  <div class="search-wrapper">
-  <div class="search-bar">
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Search by title, topic or platform..."
-    />
-  </div>
-</div>
-
-
-
-  <!-- ================= STATS ================= -->
-  <section class="stats">
-    <span>Total: <b id="count-total">0</b></span>
-    <span>Todo: <b id="count-todo">0</b></span>
-    <span>In Progress: <b id="count-progress">0</b></span>
-    <span>Done: <b id="count-done">0</b></span>
-
-    <select id="filterStatus">
-      <option value="all">All</option>
-      <option value="todo">Todo</option>
-      <option value="in-progress">In Progress</option>
-      <option value="done">Done</option>
-    </select>
+  <!-- SEARCH -->
+  <section class="search-section section">
+    <div class="container">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search by title, topic or platform..."
+      />
+    </div>
   </section>
 
-  <!-- ================= ADD FORM ================= -->
-  <section id="add" class="add-section">
-    <h2>Add a Problem</h2>
+  <!-- STATS -->
+  <section class="stats section">
+    <div class="container stats-inner">
+      <div class="stat">Total: <b id="count-total">0</b></div>
+      <div class="stat">Todo: <b id="count-todo">0</b></div>
+      <div class="stat">In Progress: <b id="count-progress">0</b></div>
+      <div class="stat">Done: <b id="count-done">0</b></div>
 
-    <form id="problem-form" class="add-form">
-      <input id="p-title" placeholder="Problem title" required />
-      <input id="p-platform" placeholder="Platform (LeetCode, GFG)" />
-      <input id="p-topic" placeholder="Topic (Array, DP...)" />
-
-      <select id="p-difficulty">
-        <option>Easy</option>
-        <option selected>Medium</option>
-        <option>Hard</option>
+      <select id="filterStatus">
+        <option value="all">All</option>
+        <option value="todo">Todo</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
       </select>
-
-      <button type="submit">Add</button>
-    </form>
+    </div>
   </section>
 
-  <!-- ================= PROBLEMS ================= -->
-  <section id="problems" class="problems-section">
-    <h2>Your Problems</h2>
-    <div id="problems-container" class="cards"></div>
+  <!-- ADD -->
+  <section id="add" class="add-section section">
+    <div class="container">
+      <h2>Add a Problem</h2>
+
+      <form id="problem-form" class="add-form">
+        <input id="p-title" placeholder="Problem title" required />
+        <input id="p-platform" placeholder="Platform (LeetCode, GFG)" />
+        <input id="p-topic" placeholder="Topic (Array, DP...)" />
+
+        <select id="p-difficulty">
+          <option>Easy</option>
+          <option selected>Medium</option>
+          <option>Hard</option>
+        </select>
+
+        <button type="submit">Add Problem</button>
+      </form>
+    </div>
   </section>
 
-  <!-- ================= ABOUT ================= -->
-  <section id="about" class="about">
-  <h2>About TrackMyDSA</h2>
-
-  <div class="about-grid">
-    <div class="about-card">
-      <h3>What is TrackMyDSA?</h3>
-      <p>
-        TrackMyDSA helps you organize DSA problems with status, notes,
-        and smart filters so nothing gets lost during preparation.
-      </p>
+  <!-- PROBLEMS -->
+  <section id="problems" class="problems-section section">
+    <div class="container">
+      <h2>Your Problems</h2>
+      <div id="problems-container" class="cards"></div>
     </div>
+  </section>
 
-    <div class="about-card">
-      <h3>Why this project?</h3>
-      <p>
-        Most students solve problems but forget them later.
-        This project was built to make revision structured and intentional.
-      </p>
+  <!-- ABOUT -->
+  <section id="about" class="about section">
+    <div class="container">
+      <h2 class="section-title">About TrackMyDSA</h2>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>What is TrackMyDSA?</h3>
+          <p>
+            Organize DSA problems with status, notes,
+            and smart filters so nothing gets lost.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <h3>Why this project?</h3>
+          <p>
+            Built to make revision structured,
+            intentional, and consistent.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <h3>Who is it for?</h3>
+          <p>
+            Students preparing for interviews,
+            contests, or serious practice.
+          </p>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="about-card">
-      <h3>Who is it for?</h3>
+  <!-- CONTACT -->
+  <section id="contact" class="contact section">
+    <div class="container">
+      <h2>Contact</h2>
       <p>
-        Perfect for students preparing for interviews, contests,
-        or anyone serious about consistent DSA practice.
+        Built by <strong>Ashish Katariya</strong>. Open to feedback,
+        collaboration, and opportunities.
       </p>
+
+      <div class="contact-links">
+        <a href="mailto:ashishkatariya84@gmail.com">Email</a>
+        <span>•</span>
+        <a href="https://github.com/Ashu-katariya" target="_blank">GitHub</a>
+        <span>•</span>
+        <a href="https://www.linkedin.com/in/ashish-katariya-b348a9360 " target="_blank">LinkedIn</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="contact" class="contact">
-  <h2>Contact</h2>
-
-  <p class="contact-text">
-    Built by <strong>Ashu</strong>.  
-    Feel free to reach out for feedback, collaboration, or opportunities.
-  </p>
-
-  <div class="contact-links">
-    <a href="mailto:ashu@example.com">Email</a>
-    <span>•</span>
-    <a href="https://github.com/your-username" target="_blank">GitHub</a>
-    <span>•</span>
-    <a href="https://linkedin.com/in/your-profile" target="_blank">LinkedIn</a>
-  </div>
-</section>
-
-
-
-  <!-- ================= FOOTER ================= -->
+  <!-- FOOTER -->
   <footer class="footer">
-  <p>
-    TrackMyDSA © 2025 · Built with HTML, CSS, JavaScript, Node.js & MongoDB
-  </p>
-</footer>
+    <div class="container">
+      TrackMyDSA © 2025 · Built with HTML, CSS, JavaScript, Node.js & MongoDB
+    </div>
+  </footer>
 
-  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
