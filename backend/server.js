@@ -31,7 +31,9 @@ const problemSchema = new Schema({
   topic: { type: String, default: "" },
   difficulty: { type: String, default: "Medium" },
   status: { type: String, default: "todo" },
+  notes: { type: String, default: "" }, // 🆕 user notes
 }, { timestamps: true });
+
 
 const Problem = model("Problem", problemSchema);
 

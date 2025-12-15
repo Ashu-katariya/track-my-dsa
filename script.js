@@ -83,6 +83,20 @@ function renderProblems(problems) {
       </select>
 
       <button class="deleteBtn" data-id="${p._id}">Delete</button>
+
+      <div class="notes-section">
+  <label>Notes:</label>
+  <textarea 
+    class="notesInput" 
+    data-id="${p._id}" 
+    placeholder="Approach, edge cases, mistakes..."
+  >${p.notes || ""}</textarea>
+
+  <button class="saveNotesBtn" data-id="${p._id}">
+    Save Notes
+  </button>
+</div>
+
     `;
 
     container.appendChild(card);
@@ -137,6 +151,32 @@ document.addEventListener("click", async (e) => {
 
   loadProblems();
 });
+
+// Notes save
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("saveNotesBtn")) return;
+
+  const id = e.target.dataset.id;
+
+  const textarea = document.querySelector(
+    `.notesInput[data-id="${id}"]`
+  );
+
+  const notes = textarea.value;
+
+  try {
+    await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ notes }),
+    });
+
+    console.log("Notes saved");
+  } catch (err) {
+    console.error("Failed to save notes", err);
+  }
+});
+
 
 // Init
 loadProblems();

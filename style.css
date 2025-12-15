@@ -246,3 +246,39 @@ input, select {
 input:focus, select:focus {
   box-shadow: 0 0 0 2px rgba(59,130,246,0.4);
 }
+
+.notes-section {
+  margin-top: 12px;
+}
+
+.notes-section label {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.notesInput {
+  width: 100%;
+  min-height: 70px;
+  margin-top: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: #0f172a;
+  color: #e5e7eb;
+  resize: vertical;
+}
+
+.saveNotesBtn {
+  margin-top: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.saveNotesBtn:hover {
+  background: #1d4ed8;
+}
