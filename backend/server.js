@@ -1,14 +1,25 @@
 // backend/server.js
-require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const authMiddleware = require("./middleware/authMiddleware");
+
+
+require('dotenv').config();
 
 const app = express();
 
 // middleware
 app.use(express.json());
 app.use(cors());
+
+const authRoutes = require("./routes/auth");
+app.use("/api/auth", authRoutes);
+
+const profileRoutes = require("./routes/profile");
+app.use("/api/profile", profileRoutes);
+
+
 
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/trackmydsa";
@@ -31,8 +42,17 @@ const problemSchema = new Schema({
   topic: { type: String, default: "" },
   difficulty: { type: String, default: "Medium" },
   status: { type: String, default: "todo" },
-  notes: { type: String, default: "" }, // 🆕 user notes
+  notes: { type: String, default: "" },
+
+  // 🔐 owner of this problem
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  }
+
 }, { timestamps: true });
+
 
 
 const Problem = model("Problem", problemSchema);
@@ -48,54 +68,86 @@ app.get("/health", (req, res) => {
   });
 });
 
-// GET all problems
-app.get("/api/problems", async (req, res) => {
+
+
+// ✅ GET only logged-in user's problems
+app.get("/api/problems", authMiddleware, async (req, res) => {
   try {
-    const list = await Problem.find().sort({ createdAt: -1 });
+    const list = await Problem.find({ user: req.userId })
+      .sort({ createdAt: -1 });
+
     res.json(list);
   } catch (err) {
-    console.error("GET /api/problems error:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// POST create
-app.post("/api/problems", async (req, res) => {
-  try {
-    const { title, platform, topic, difficulty, status } = req.body;
-    if (!title) return res.status(400).json({ error: "Title is required" });
 
-    const doc = await Problem.create({ title, platform, topic, difficulty, status });
-    res.status(201).json(doc);
+// ✅ CREATE problem for logged-in user
+app.post("/api/problems", authMiddleware, async (req, res) => {
+  try {
+    const { title, platform, topic, difficulty, status, notes } = req.body;
+
+    if (!title) {
+      return res.status(400).json({ error: "Title is required" });
+    }
+
+    const problem = await Problem.create({
+      title,
+      platform,
+      topic,
+      difficulty,
+      status,
+      notes,
+      user: req.userId   // 🔥 CORE LINE
+    });
+
+    res.status(201).json(problem);
   } catch (err) {
-    console.error("POST /api/problems error:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// PUT update
-app.put("/api/problems/:id", async (req, res) => {
+
+// ✅ UPDATE only own problem
+app.put("/api/problems/:id", authMiddleware, async (req, res) => {
   try {
-    const doc = await Problem.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!doc) return res.status(404).json({ error: "Problem not found" });
-    res.json(doc);
+    const problem = await Problem.findOneAndUpdate(
+      { _id: req.params.id, user: req.userId }, // 🔐 ownership check
+      req.body,
+      { new: true }
+    );
+
+    if (!problem) {
+      return res.status(404).json({ error: "Problem not found" });
+    }
+
+    res.json(problem);
   } catch (err) {
-    console.error("PUT /api/problems/:id error:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// DELETE
-app.delete("/api/problems/:id", async (req, res) => {
+
+// ✅ DELETE only own problem
+app.delete("/api/problems/:id", authMiddleware, async (req, res) => {
   try {
-    const doc = await Problem.findByIdAndDelete(req.params.id);
-    if (!doc) return res.status(404).json({ error: "Problem not found" });
+    const problem = await Problem.findOneAndDelete({
+      _id: req.params.id,
+      user: req.userId
+    });
+
+    if (!problem) {
+      return res.status(404).json({ error: "Problem not found" });
+    }
+
     res.json({ success: true });
   } catch (err) {
-    console.error("DELETE /api/problems/:id error:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
+
+
 
 // Listen
 app.listen(PORT, () => {

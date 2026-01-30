@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrackMyDSA · Dashboard</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+
+<!-- 🔐 AUTH CHECK -->
+<script>
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "/auth.html";
+  }
+</script>
+
+<!-- ===== HEADER ===== -->
+<header class="dash-header">
+  <div class="dash-container">
+    <div class="dash-logo">TrackMyDSA</div>
+    <nav class="dash-nav">
+      <a href="#add">Add</a>
+      <a href="#problems">Problems</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main class="dash-main">
+
+  <!-- HERO -->
+  <section class="dash-hero">
+    <h1>Track your DSA journey</h1>
+    <p>Stay consistent · Revise smarter · Crack interviews</p>
+  </section>
+
+  <!-- STATS -->
+  <section class="dash-stats">
+    <div class="stat-card">Total <strong id="count-total">0</strong></div>
+    <div class="stat-card">Todo <strong id="count-todo">0</strong></div>
+    <div class="stat-card">In Progress <strong id="count-progress">0</strong></div>
+    <div class="stat-card">Done <strong id="count-done">0</strong></div>
+  </section>
+
+  <!-- SEARCH + FILTER -->
+  <section class="dash-controls">
+    <input id="searchInput" placeholder="Search by title, topic or platform..." />
+    <select id="filterStatus">
+      <option value="all">All</option>
+      <option value="todo">Todo</option>
+      <option value="in-progress">In Progress</option>
+      <option value="done">Done</option>
+    </select>
+  </section>
+
+  <!-- ADD -->
+  <section id="add" class="dash-add">
+    <h2>Add a Problem</h2>
+    <form id="problem-form" class="add-form">
+      <input id="p-title" placeholder="Problem title" required />
+      <input id="p-platform" placeholder="Platform (LeetCode, GFG)" />
+      <input id="p-topic" placeholder="Topic (Array, DP...)" />
+      <select id="p-difficulty">
+        <option>Easy</option>
+        <option selected>Medium</option>
+        <option>Hard</option>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+  </section>
+
+  <!-- PROBLEMS -->
+  <section id="problems" class="dash-list">
+    <h2>Your Problems</h2>
+    <div id="problems-container" class="problem-grid"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="dash-about">
+    <h2>About TrackMyDSA</h2>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>What is TrackMyDSA ?</h3>
+        <p>A personal DSA tracker to log problems, track status and stay consistent.</p>
+      </div>
+      <div class="about-card">
+        <h3>Why this project ?</h3>
+        <p>Built to make revision structured, intentional, and consistent.</p>
+      </div>
+      <div class="about-card">
+        <h3>Who is it for ?</h3>
+        <p>Students preparing for interviews, contests, or serious practice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="dash-contact">
+    <h2>Contact</h2>
+    <p>Built by <strong>Ashish Katariya</strong>. Open to feedback, collaboration and opportunities.</p>
+    <div class="contact-links">
+      <a href="mailto:ashishkatariya84@gmail.com">Email</a>
+      <span>•</span>
+      <a href="https://github.com/Ashu-katariya" target="_blank">GitHub</a>
+      <span>•</span>
+      <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dash-footer">
+  TrackMyDSA © 2025 · Built with MERN
+</footer>
+
+<script src="./script.js"></script>
+</body>
+</html>
