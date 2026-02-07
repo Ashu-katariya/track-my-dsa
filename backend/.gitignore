@@ -1,2 +1,4 @@
-node_modules/
-.env
+PORT=3000
+JWT_SECRET=supersecretkey123
+MONGO_URI=mongodb+srv://ashu:Ashu12345@trackmydsa-cluster.oh0u0yo.mongodb.net/trackmydsa
+

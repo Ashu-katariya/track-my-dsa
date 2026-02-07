@@ -27,6 +27,6 @@ navLinks.forEach(link => {
 // logout
 document.querySelector(".logout-btn").addEventListener("click", () => {
   localStorage.removeItem("token");
-  window.location.href = "/auth.html";
+  window.location.href = "./auth.html";
 });
 
