@@ -95,7 +95,7 @@ authForm.addEventListener("submit", async (e) => {
       localStorage.setItem("token", data.token);
 
       // redirect to dashboard
-      window.location.href = "/dashboard/layout.html";
+      window.location.href = "/layout.html";
     } else {
       // SIGNUP → stay on auth page (as discussed)
       alert("Account created successfully. Please login.");
