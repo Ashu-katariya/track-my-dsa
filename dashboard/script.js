@@ -1,8 +1,10 @@
+import CONFIG from "./config.js";
+
 // ================= AUTH =================
 const token = localStorage.getItem("token");
 if (!token) window.location.href = "/auth.html";
 
-const API_URL = "http://localhost:3000/api/problems";
+const API_URL = CONFIG.API_BASE_URL + "/api/problems";
 
 function authHeaders() {
   return {

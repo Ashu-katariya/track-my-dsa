@@ -1,6 +1,7 @@
 // FRONTEND profile.js (browser)
+import CONFIG from "./config.js";
 
-const API = "http://localhost:3000/api/profile";
+const API = CONFIG.API_BASE_URL + "/api/profile";
 
 const nameEl = document.getElementById("profile-name");
 const emailEl = document.getElementById("profile-email");

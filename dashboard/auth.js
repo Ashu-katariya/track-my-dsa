@@ -15,10 +15,13 @@ const passwordInput = document.getElementById("password");
 
 let isLoginMode = true;
 
+import CONFIG from "./config.js";
+
 // -------------------------------
 // API BASE (backend)
 // -------------------------------
-const API_BASE = "http://localhost:3000/api/auth";
+
+const API_BASE = CONFIG.API_BASE_URL + "/api/auth";
 
 // -------------------------------
 // MODE SWITCH (Login <-> Signup)
