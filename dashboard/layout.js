@@ -21,8 +21,40 @@ navLinks.forEach(link => {
     if (target) {
       target.classList.remove("hidden");
     }
+
+    // Close mobile menu if open
+    closeMobileMenu();
   });
 });
+
+// Mobile menu toggle logic
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+function openMobileMenu() {
+  sidebar.classList.add('show-sidebar');
+  sidebarOverlay.classList.add('show');
+}
+
+function closeMobileMenu() {
+  sidebar.classList.remove('show-sidebar');
+  sidebarOverlay.classList.remove('show');
+}
+
+if(mobileMenuBtn) {
+  mobileMenuBtn.addEventListener('click', () => {
+    if(sidebar.classList.contains('show-sidebar')) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
+  });
+}
+
+if(sidebarOverlay) {
+  sidebarOverlay.addEventListener('click', closeMobileMenu);
+}
 
 // logout
 document.querySelector(".logout-btn").addEventListener("click", () => {
