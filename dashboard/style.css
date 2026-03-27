@@ -2309,3 +2309,59 @@ select option:hover {
     padding: 10px 12px;
   }
 }
+
+/* ===== MINIMALIST MOBILE UI FIXES ===== */
+
+/* Task 1: Center "Let's Connect" Card */
+.contact-card {
+  margin: 0 auto !important;
+}
+
+/* Task 2 & 3: Fix Filter Alignment without touching stat bars */
+#filterStatus {
+  display: block !important;
+  width: fit-content !important;
+  margin: 16px auto 0 auto !important;
+}
+
+/* Task 4: Sticky Header */
+.topbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
+  /* Add subtle background so it doesn't overlap text transparently */
+  background: rgba(5, 8, 26, 0.95);
+  backdrop-filter: blur(12px);
+}
+
+/* Task 5: Enforce Responsive Design Rules */
+.app-layout, .main-area, .content-area, .profile-shell, .dashboard-shell {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.problem-card h4, .strip-card h4, .stat-box p {
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* ===== USER REQUESTED STATS ROW OVERRIDE ===== */
+/* Force stats-row to block layout */
+.stats-row {
+  display: block !important;
+}
+
+/* Make stat cards exact full-width stacked blocks with gap */
+.stats-row .stat-card {
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: 16px !important;
+  text-align: center !important;
+}
+
+/* Ensure the filter is centered and below the cards */
+#filterStatus {
+  display: block !important;
+  width: fit-content !important;
+  margin: 0 auto !important;
+}
