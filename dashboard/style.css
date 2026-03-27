@@ -2365,3 +2365,30 @@ select option:hover {
   width: fit-content !important;
   margin: 0 auto !important;
 }
+
+/* ===== USER REQUESTED STATS ROW OVERLAP AND HOVER ===== */
+.stats-row .stat-card {
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: -10px !important; /* Negative margin for overlap */
+  text-align: center !important;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* The last bar shouldn't overlap onto the filter */
+.stats-row .stat-card:last-of-type {
+  margin-bottom: 24px !important;
+}
+
+/* Cool Hover Effect */
+.stats-row .stat-card:hover {
+  transform: translateY(-6px) scale(1.01) !important;
+  z-index: 10 !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(56, 189, 248, 0.4) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)) !important;
+}
